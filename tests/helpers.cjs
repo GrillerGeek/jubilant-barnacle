@@ -27,7 +27,7 @@ async function until(check, message, timeout = 15000) {
 async function boot(dir, source) {
   const file = path.join(dir, 'bootstrap.cjs');
   await fs.writeFile(file, source);
-  const env = { NODE_PATH: path.join(repo, 'node_modules'), PORT: '0', UV_THREADPOOL_SIZE: '2' };
+  const env = { NODE_PATH: path.join(repo, 'node_modules'), PORT: '0', UV_THREADPOOL_SIZE: '2', CI: '1', NO_UPDATE_NOTIFIER: '1' };
   for (const key of ['PATH', 'Path', 'SystemRoot', 'TEMP', 'TMP']) {
     if (process.env[key]) env[key] = process.env[key];
   }

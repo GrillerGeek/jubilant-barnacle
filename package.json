@@ -11,7 +11,10 @@
     "scripts": {
         "start": "node index.js",
         "dev": "nodemon",
-        "test:runtime": "node --test --test-concurrency=1 tests/runtime.test.cjs"
+        "images": "gulp",
+        "test:runtime": "node --test --test-concurrency=1 tests/runtime.test.cjs",
+        "test:images": "node --test --test-concurrency=1 tests/images.test.cjs",
+        "test": "node --test --test-concurrency=1 tests/*.test.cjs"
     },
     "dependencies": {
         "ejs": "^3.1.10",
@@ -19,7 +22,8 @@
         "nodemon": "^3.1.14"
     },
     "devDependencies": {
-        "gulp": "^4.0.2",
-        "gulp-imagemin": "^7.1.0"
+        "gulp": "5.0.1",
+        "sharp": "0.35.5",
+        "svgo": "4.1.0"
     }
 }
