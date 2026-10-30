@@ -23,7 +23,7 @@ async function optimizeImage(file) {
   if (extension === '.svg') {
     const source = original.toString('utf8');
     // Preserve dynamic/animated SVGs without interpreting their behavior.
-    if (/<\?xml-stylesheet\b|<(?:\w+:)?(?:animate\w*|set|script|style|foreignObject)\b|\bon[\w-]+\s*=|(?:animation|transition)\s*:|(?:xlink:)?href\s*=\s*["'](?!#)/i.test(source)) return original;
+    if (/<\?xml-stylesheet\b|<!DOCTYPE\b|<(?:[^\s<>/:]+:)?(?:animate\w*|set|script|style|foreignObject)\b|\bon[\w-]+\s*=|(?:animation|transition)\s*:|(?:xlink:)?href\s*=\s*["'](?!#)/i.test(source)) return original;
     candidate = Buffer.from(optimize(source, { plugins: ['removeComments', 'removeMetadata'] }).data);
   } else if (['.jpg', '.jpeg', '.png'].includes(extension)) {
     // Sharp does not expose every APNG frame through metadata; detect its control chunk first.

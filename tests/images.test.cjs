@@ -89,6 +89,7 @@ test('real task preserves fidelity, alpha, orientation, animation, geometry and 
       'animated.svg': Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12"><rect width="4" height="4"><animate attributeName="x" values="0;8" dur="1s" repeatCount="indefinite"/></rect></svg>'),
       'event.svg': Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" onload="this.setAttribute(\'fill\',\'red\')"><rect width="4" height="4"/></svg>'),
       'mpf-marker.jpg': Buffer.concat([jpeg.subarray(0, 2), Buffer.from([255, 226, 0, 6, 77, 80, 70, 0]), jpeg.subarray(2)]),
+      'namespaced.svg': Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" xmlns:motion-guide="http://www.w3.org/2000/svg" width="16" height="12"><rect width="4" height="4"><motion-guide:animate attributeName="x" values="0;8" dur="1s"/></rect></svg>'),
     };
     for (const [name, bytes] of Object.entries(originals)) await fs.writeFile(path.join(input, name), bytes);
     const gifBefore = await sharp(gif, { animated: true }).metadata();
@@ -136,7 +137,7 @@ test('real task preserves fidelity, alpha, orientation, animation, geometry and 
     assert.match(svgAfter.toString(), /height="12"/);
     assert.match(svgAfter.toString(), /viewBox="0.125 0.25 16.125 12.25"/);
     assert.deepEqual(await sharp(svgAfter).raw().toBuffer(), await sharp(svg).raw().toBuffer(), 'SVG geometry/pixels changed');
-    for (const name of ['animation.GIF', 'animation.WEBP', 'multipage.TIFF', 'animation.PNG', 'still.gif', 'unknown.bin', 'small.svg', 'animated.svg', 'event.svg', 'mpf-marker.jpg']) {
+    for (const name of ['animation.GIF', 'animation.WEBP', 'multipage.TIFF', 'animation.PNG', 'still.gif', 'unknown.bin', 'small.svg', 'animated.svg', 'event.svg', 'mpf-marker.jpg', 'namespaced.svg']) {
       assert.deepEqual(await fs.readFile(path.join(output, name)), originals[name], name + ' passthrough changed');
     }
     const gifAfter = await sharp(await fs.readFile(path.join(output, 'animation.GIF')), { animated: true }).metadata();
